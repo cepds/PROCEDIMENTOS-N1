@@ -1,90 +1,15 @@
 <!doctype html>
 <html lang="pt-BR">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MVNO Wiki Module</title>
-    <link rel="stylesheet" href="styles.css?v=4" />
+    <meta charset="utf-8">
+    <title>Redirecionando...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="0; url=mvno-module/">
+    <script>
+      location.replace("mvno-module/");
+    </script>
   </head>
   <body>
-    <div id="app"></div>
-    <script>
-      (() => {
-        const params = new URLSearchParams(location.search);
-        const pairs = [
-          ["--system-accent", "--play-accent"],
-          ["--user-bg", "--play-bg"],
-          ["--user-card", "--play-card"],
-          ["--surface-text", "--play-text"],
-          ["--muted-strong", "--play-muted"],
-          ["--field-bg", "--play-field"],
-          ["--field-border", "--play-line"]
-        ];
-
-        function colorLum(value) {
-          const color = String(value || "").trim();
-          const hex = color.match(/^#?([a-f\d]{6})$/i)?.[1];
-          let rgb;
-          if (hex) {
-            rgb = [0, 2, 4].map((index) => parseInt(hex.slice(index, index + 2), 16));
-          } else {
-            rgb = color.match(/rgba?\(([^)]+)\)/i)?.[1].split(",").slice(0, 3).map((item) => Number(item.trim()));
-          }
-          if (!rgb || rgb.some((item) => Number.isNaN(item))) return 0;
-          const [r, g, b] = rgb.map((item) => {
-            const channel = item / 255;
-            return channel <= 0.03928 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
-          });
-          return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-        }
-
-        function applyUrlTheme() {
-          const fromParams = [
-            ["accent", "--play-accent"],
-            ["bg", "--play-bg"],
-            ["card", "--play-card"],
-            ["text", "--play-text"],
-            ["muted", "--play-muted"],
-            ["field", "--play-field"],
-            ["line", "--play-line"]
-          ];
-          fromParams.forEach(([key, cssVar]) => {
-            const value = params.get(key);
-            if (value) document.documentElement.style.setProperty(cssVar, value);
-          });
-          const theme = params.get("theme");
-          if (theme === "light" || theme === "dark") {
-            document.documentElement.dataset.playTheme = theme;
-            document.body.dataset.playTheme = theme;
-          }
-        }
-
-        function syncPlayTheme() {
-          applyUrlTheme();
-          try {
-            const parentRoot = window.parent?.document?.documentElement;
-            const parentBody = window.parent?.document?.body;
-            if (!parentRoot) return;
-            const source = window.parent.getComputedStyle(parentRoot);
-            pairs.forEach(([from, to]) => {
-              const value = source.getPropertyValue(from).trim();
-              if (value) document.documentElement.style.setProperty(to, value);
-            });
-            const bg = source.getPropertyValue("--user-bg").trim() || source.getPropertyValue("--app-bg").trim();
-            const card = source.getPropertyValue("--user-card").trim() || source.getPropertyValue("--card-bg").trim();
-            const urlTheme = new URLSearchParams(location.search).get("theme");
-            const isLight = urlTheme === "light" || parentBody?.classList.contains("theme-light") || colorLum(bg) > 0.45 || colorLum(card) > 0.55;
-            const theme = isLight ? "light" : "dark";
-            document.documentElement.dataset.playTheme = theme;
-            document.body.dataset.playTheme = theme;
-          } catch {}
-        }
-
-        applyUrlTheme();
-        syncPlayTheme();
-        setInterval(syncPlayTheme, 600);
-      })();
-    </script>
-    <script src="app.js?v=4"></script>
+    <p>Redirecionando para o sistema...</p>
   </body>
 </html>
